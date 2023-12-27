@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
 } from "@/components/ui/card";
 import Fondo from "../../../public/images/fondo-1.jpg";
@@ -33,13 +32,13 @@ export default function Register() {
             <PiMotorcycleFill size={80} className="mb-4" color="blakc" />
           </div>
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="account">Login</TabsTrigger>
-            <TabsTrigger value="password">Register</TabsTrigger>
+            <TabsTrigger value="login">Login</TabsTrigger>
+            <TabsTrigger value="register">Register</TabsTrigger>
           </TabsList>
-          <TabsContent value="account">
+          <TabsContent value="login">
             <LoginCard />
           </TabsContent>
-          <TabsContent value="password">
+          <TabsContent value="register">
             <RegisterCard />
           </TabsContent>
         </Tabs>
@@ -52,8 +51,12 @@ export default function Register() {
 }
 
 const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+  email: z.string().email({
+    message: "Ingrese un email valido",
+  }),
+  password: z.string().min(6, {
+    message: "La contraseña debe contener al menos 6 caracteres",
+  }),
 });
 
 function LoginCard() {
@@ -69,9 +72,13 @@ function LoginCard() {
   async function handleLogin(values) {
     try {
       const res = await axios.post("/api/login", values);
-      router.push("/");
+      if (res.status === 200) {
+        router.push("/");
+      } else {
+        throw new Error("Usuario no encontrado. Verifica tus credenciales.");
+      }
     } catch (error) {
-      console.error("Error en inicio de sesión:", error);
+      console.error("Error en inicio de sesión:", error.message);
     }
   }
 
@@ -116,7 +123,7 @@ function LoginCard() {
           </div>
 
           <Button
-            className="bg-black hover:bg-neutral-800 mt-4 w-full"
+            className="bg-black hover:bg-accent w-full shadow-none hover:text-accent-foreground border mt-4"
             type="submit"
           >
             Iniciar Sesión
@@ -263,7 +270,7 @@ function RegisterCard() {
 
           <Button
             type="submit"
-            className="bg-black hover:bg-neutral-800 mt-4 w-full text-white"
+            className="bg-black hover:bg-accent w-full shadow-none hover:text-accent-foreground border mt-4"
           >
             Registrarse
           </Button>

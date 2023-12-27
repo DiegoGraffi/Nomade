@@ -59,7 +59,11 @@ const Filters = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <Button type="submit" className="bg-black" onClick={applyFilters}>
+          <Button
+            type="submit"
+            className="bg-black hover:bg-accent w-full shadow-none hover:text-accent-foreground border"
+            onClick={applyFilters}
+          >
             Buscar
           </Button>
         </div>
@@ -114,10 +118,16 @@ const Filters = () => {
             </SelectContent>
           </Select>
         </div>
-        <Button className="bg-black w-full" onClick={applyFilters}>
+        <Button
+          className="bg-black w-full hover:bg-accent shadow-none hover:text-accent-foreground border"
+          onClick={applyFilters}
+        >
           Aplicar filtro
         </Button>
-        <Button className="bg-black w-full" onClick={removeFilters}>
+        <Button
+          className="bg-black hover:bg-accent w-full shadow-none hover:text-accent-foreground border mt-2"
+          onClick={removeFilters}
+        >
           Eliminar filtros
         </Button>
       </div>

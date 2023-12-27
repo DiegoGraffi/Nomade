@@ -1,8 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import Logo from "../../public/images/Logo.svg";
-
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { getLoggedInUser, getSession } from "@/lib/auth";
@@ -25,7 +23,7 @@ async function NavigationMenuDemo() {
     <div className="flex flex-row justify-between py-3 px-4 w-screen absolute z-[10] top-0">
       <Image src={Logo} width={60} alt="logo" />
       <div className="flex items-center">
-        <ul className="flex gap-2.5">
+        <ul className="flex md:gap-2.5">
           <li className="text-xs font-light cursor-pointer bg-neutral-400 text-white hover:bg-black transition-all ease-in-out duration-150 py-2 px-3 rounded-md">
             <Link href="/">Inicio</Link>
           </li>
@@ -63,19 +61,19 @@ async function NavigationMenuDemo() {
           </h1>
 
           <form action={logout}>
-            <Button className="bg-black hover:bg-red-700 text-xs">
+            <Button className="bg-black hover:bg-accent hover:border-red-400 w-full shadow-none hover:text-accent-foreground border text-xs">
               Cerrar Sesion
             </Button>
           </form>
           <Link href="/cart">
-            <Button className="bg-black hover:bg-blue-700 text-xs">
+            <Button className="bg-black hover:bg-accent hover:border-blue-400 w-full shadow-none hover:text-accent-foreground border text-xs">
               Carrito
             </Button>
           </Link>
         </div>
       ) : (
         <Link href="/register">
-          <Button className="bg-black hover:bg-neutral-800">
+          <Button className="bg-black hover:bg-accent w-full shadow-none hover:text-accent-foreground">
             <p className="font-light">
               Iniciar Sesión /{" "}
               <span className="font-semibold">Registrarse</span>

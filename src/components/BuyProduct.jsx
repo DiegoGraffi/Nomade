@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Button } from "./ui/button";
+import { formatPrice } from "@/lib/formatter";
 
 async function BuyProduct(props) {
   const { item } = props;
@@ -79,7 +80,7 @@ async function BuyProduct(props) {
 
         <div className="w-full md:flex items-center justify-center hidden">
           <p className="font-ligth text-sm md:font-medium md:text-base">
-            ${product.price * item.quantity}
+            {formatPrice(product.price * item.quantity)}
           </p>
         </div>
 
@@ -106,7 +107,7 @@ async function BuyProduct(props) {
         <div className="flex justify-between w-full items-center my-2">
           <p className="w-[50%]">{product.name}</p>
           <p className="w-[50%] text-end font-medium text-lg">
-            ${product.price * item.quantity}
+            {formatPrice(product.price * item.quantity)}
           </p>
         </div>
 

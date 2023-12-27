@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { products } from "../../../../db/schema";
-import { eq, gte, lte, and, asc, desc } from "drizzle-orm";
+import { eq, gte, lte, and, asc, desc, like } from "drizzle-orm";
 import { type NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic"; // defaults to auto
@@ -18,7 +18,8 @@ export async function GET(request: NextRequest) {
     .where(
       and(
         minPrice ? gte(products.price, parseInt(minPrice)) : undefined,
-        maxPrice ? lte(products.price, parseInt(maxPrice)) : undefined
+        maxPrice ? lte(products.price, parseInt(maxPrice)) : undefined,
+        search ? like(products.name, "%" + search + "%") : undefined
       )
     )
     .orderBy(sort === "asc" ? asc(products.price) : desc(products.price));

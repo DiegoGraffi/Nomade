@@ -1,15 +1,12 @@
 import {
   int,
-  mysqlEnum,
   mysqlTable,
-  uniqueIndex,
   varchar,
   serial,
   text,
   boolean,
 } from "drizzle-orm/mysql-core";
 
-// declaring enum in database
 export const products = mysqlTable("products", {
   id: serial("id").primaryKey(),
   name: text("name"),

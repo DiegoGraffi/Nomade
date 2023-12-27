@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+
 import Product from "@/components/Product";
 import Filters from "../../components/Filters";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation";
 export default function Products() {
   const searchParams = useSearchParams();
 
-  const { data, status } = useSuspenseQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ["productos", ...searchParams.values()],
     queryFn: () => {
       if (searchParams.size) {
@@ -28,7 +28,7 @@ export default function Products() {
           <Filters />
           <div className="border border-t-0 md:border-t w-full md:w-[75%] p-4 rounded-b-md md:rounded-bl-none md:rounded-r-md grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[10px] justify-center items-center">
             {data.length === 0 ? (
-              <p className="text-[32px] border w-max ">
+              <p className="text-[32px] border w-full mx-auto">
                 Aún no hay productos agregados
               </p>
             ) : (

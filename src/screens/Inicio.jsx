@@ -45,10 +45,10 @@ const Inicio = () => {
   return (
     <div className="min-h-screen w-screen">
       <section className="flex flex-col items-center justify-center h-screen relative container mx-auto">
-        <h1 className="font-bold text-[90px] text-center max-w-[800px] text-black uppercase">
+        <h1 className="font-bold text-[62px] md:text-[90px] text-center max-w-[800px] text-black uppercase">
           Get ready to hit the road
         </h1>
-        <p className="font-light text-center max-w-[800px] mt-5 text-black">
+        <p className="font-light text-sm md:text-base text-center max-w-[800px] mt-5 text-black">
           Sed ut finibus felis. Curabitur varius erat eget viverra iaculis. Sed
           et ante accumsan, varius neque sit amet, ullamcorper dolor. Maecenas
           ultricies massa at magna facilisis rhoncus.
@@ -60,7 +60,7 @@ const Inicio = () => {
           alt="hero-img"
           className="absolute -z-10 opacity-25"
         />
-        <div className="rounded-full w-10 h-10 bg-black mt-[20px] mx-auto absolute bottom-14 flex justify-center items-center p-2 hover:scale-110 cursor-pointer transition-all duration-200 ease-in-out">
+        <div className="rounded-full w-10 h-10 bg-black mt-[20px] mx-auto absolute bottom-[10%] lg:bottom-14 flex justify-center items-center p-2 hover:scale-110 cursor-pointer transition-all duration-200 ease-in-out">
           <a href="#nosotros">
             <PiArrowDown color="white" size={25} />
           </a>
@@ -69,7 +69,7 @@ const Inicio = () => {
 
       <section className="md:min-h-screen w-screen flex justify-center items-center p-[25px] overflow-hidden relative">
         <div>
-          <Image src={about} className="md:hidden" />
+          <Image src={about} className="md:hidden" alt="about-image" />
         </div>
         <div className="hidden md:flex w-full h-full relative justify-center items-center min-w-[1000px] max-w-[1100px] overflow-hidden scale-[.55] md:scale-[.85] lg:scale-100">
           <Image src={img1} height={800} alt="img01" />
@@ -161,7 +161,7 @@ const Inicio = () => {
 
           <div className="md:h-screen w-full flex justify-center items-center p-[25px] overflow-hidden relative mt-[50px]">
             <div>
-              <Image src={history} className="md:hidden" />
+              <Image src={history} className="md:hidden" alt="history-image" />
             </div>
             <div className="hidden md:flex w-full h-full relative justify-center items-center min-w-[1000px] max-w-[1100px] overflow-hidden scale-[.55] md:scale-[.85] lg:scale-100">
               <Image src={img5} height={700} alt="img5" />
@@ -380,7 +380,12 @@ const Inicio = () => {
         className="min-h-screen w-screen relative overflow-hidden p-6 md:p-10"
       >
         <div className="container mx-auto min-h-screen relative flex justify-center items-center">
-          <Image src={img7} fill className="object-cover rounded-3xl" />
+          <Image
+            src={img7}
+            fill
+            className="object-cover rounded-3xl"
+            alt="img7"
+          />
           <div className="bg-white rounded-md absolute z-20 p-5 ">
             <p className="text-[80px] md:text-[120px] lg:text-[150px]">
               Contacto

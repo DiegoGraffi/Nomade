@@ -1,9 +1,24 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import BuyProduct from "@/components/BuyProduct";
+import PayProduct from "@/components/PayProduct";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 import {
   Select,
@@ -18,6 +33,7 @@ import { db } from "@/lib/db";
 import { cartItem, products } from "../../../db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
+import { formatPrice } from "@/lib/formatter";
 
 async function Cart() {
   const user = await getLoggedInUser();
@@ -84,7 +100,7 @@ async function Cart() {
                 {cartItems.reduce((acc, item) => acc + item.quantity, 0)}{" "}
                 Productos
               </p>
-              <p className="font-medium">$ {total}</p>
+              <p className="font-medium">{formatPrice(total)}</p>
             </div>
 
             <div className="flex flex-col gap-4 w-full p-4 rounded-md border mt-4">
@@ -125,14 +141,115 @@ async function Cart() {
             <div className="border w-full mt-4 gap-4 h-max p-4 rounded-md">
               <div className="flex flex-row md:flex-col lg:flex-row justify-between">
                 <p className="font-light">Costo total</p>
-                <p className="font-medium">$ {total}</p>
+                <p className="font-medium">{formatPrice(total)}</p>
               </div>
-              <Button
-                variant="outline"
-                className="w-full mt-4 bg-black text-white"
-              >
-                Pagar
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="w-full mt-4 bg-black text-white"
+                  >
+                    Pagar
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="min-w-max">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Revisa tus datos antes de realizar la compra
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="flex gap-2">
+                      <div className="flex-1 border rounded-md px-2">
+                        <ScrollArea className="h-[60vh]">
+                          {cartItems.map((item, index) => (
+                            <PayProduct item={item} key={index} />
+                          ))}
+                        </ScrollArea>
+                      </div>
+                      <div className="flex-1 p-4 border rounded-md">
+                        <p className="font-semibold text-lg text-black">
+                          Resumen compra
+                        </p>
+                        <Separator className="my-4" />
+                        <div className="w-full flex justify-between">
+                          <p>Total compra:</p>
+                          <p className="font-semibold text-black">
+                            {formatPrice(total)}
+                          </p>
+                        </div>
+
+                        <div className="w-full flex flex-col justify-between mt-4">
+                          <p>
+                            Datos{" "}
+                            <span className="font-semibold">vendedor</span>
+                          </p>
+                          <div className="border rounded-md p-4 w-full flex flex-col gap-2 mt-4">
+                            <div className="w-full flex justify-between items-center">
+                              <p>Nombre vendedor:</p>
+                              <p className="font-medium text-black">Nómade</p>
+                            </div>
+
+                            <div className="w-full flex justify-between items-center">
+                              <p>Telefono:</p>
+                              <p className="font-medium text-black">
+                                +2645168465
+                              </p>
+                            </div>
+
+                            <div className="w-full flex justify-between items-center">
+                              <p>Email contacto:</p>
+                              <p className="font-medium text-black">
+                                nomade@gmail.com
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="w-full flex flex-col justify-between mt-4">
+                          <p>
+                            Datos{" "}
+                            <span className="font-semibold">comprador</span>
+                          </p>
+                          <div className="border rounded-md p-4 w-full flex flex-col gap-2 mt-4">
+                            <div className="w-full flex justify-between items-center">
+                              <p>Nombre comprador:</p>
+                              <p className="font-medium text-black">
+                                {user.name} {user.lastName}
+                              </p>
+                            </div>
+
+                            <div className="w-full flex justify-between items-center">
+                              <p>Telefono:</p>
+                              <p className="font-medium text-black">
+                                +2643857651
+                              </p>
+                            </div>
+
+                            <div className="w-full flex justify-between items-center">
+                              <p>Dirección de envío:</p>
+                              <p className="font-medium text-black">
+                                {user.address}
+                              </p>
+                            </div>
+
+                            <div className="w-full flex justify-between items-center">
+                              <p>Email contacto:</p>
+                              <p className="font-medium text-black">
+                                {user.email}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                    <AlertDialogAction className="bg-black hover:bg-accent shadow-none hover:text-accent-foreground">
+                      Realizar compra
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </div>
         </div>

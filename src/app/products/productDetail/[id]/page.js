@@ -8,6 +8,7 @@ import { cartItem, products } from "../../../../../db/schema";
 import ProductView from "../../../../components/ProductView";
 import { notFound, redirect } from "next/navigation";
 import { getLoggedInUser } from "@/lib/auth";
+import { formatPrice } from "@/lib/formatter";
 
 export default async function ProductDetail({ params }) {
   const product = await db
@@ -47,14 +48,13 @@ export default async function ProductDetail({ params }) {
             <div className="w-full p-4">
               <div className="flex gap-[10px]">
                 <Badge variant="secondary">Indumentaria</Badge>
-                <Badge variant="secondary">Camperas</Badge>
               </div>
               <p className="mt-4 font-xs opacity-50 font-light ">
                 stock: {productStock}
               </p>
 
               <p className="mt-2 font-semibold text-3xl">{productTitle}</p>
-              <p className="mt-4 text-[36px]">${productPrice}</p>
+              <p className="mt-4 text-[36px]">{formatPrice(productPrice)}</p>
             </div>
             <div className="w-full p-4  flex flex-col justify-end">
               {/* <div className="flex gap-[10px]">
