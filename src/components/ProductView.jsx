@@ -12,6 +12,7 @@ import prod7 from "../../public/images/prod07.png";
 import prod8 from "../../public/images/prod08.png";
 import prod9 from "../../public/images/prod09.png";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import placeholder from "../../public/images/placeholder-image.png";
 
 const ProductView = ({ image }) => {
   const [imagen, setImagen] = useState(image);
@@ -20,7 +21,7 @@ const ProductView = ({ image }) => {
     <div className="flex flex-col gap-[100px] justify-center items-center h-[calc(100vh-60px)] mt-[60px]">
       <div className="w-[100%] md:w-[80%] h-[50%] relative flex justify-center items-center">
         <Image
-          src={imagen ? imagen : "http://placekitten.com/500/500"}
+          src={imagen ? imagen : placeholder}
           fill
           alt="imagen principal"
           className="rounded-lg object-contain"

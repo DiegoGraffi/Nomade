@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, React, Suspense } from "react";
+import { useState, React } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 
 import axios from "axios";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export default function CreateProduct() {
   const [producto, setProducto] = useState({
@@ -19,6 +20,8 @@ export default function CreateProduct() {
     image: "",
     category_id: "",
   });
+
+  const router = useRouter();
 
   const { data } = useSuspenseQuery({
     queryKey: ["categories"],
@@ -35,6 +38,7 @@ export default function CreateProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await axios.post("/api/productos", producto);
+    router.push("/products");
   };
 
   return (
@@ -71,8 +75,13 @@ export default function CreateProduct() {
           />
         </div>
         <div className="grid w-full items-center gap-2">
-          <Label htmlFor="category">Categoria</Label>
-          <select id="category" name="category" onChange={handleChange}>
+          <Label htmlFor="category_id">Categoria</Label>
+          <select
+            id="category_id"
+            name="category_id"
+            onChange={handleChange}
+            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          >
             {data.map((category, index) => (
               <option value={category.id} key={index}>
                 {category.name}
@@ -142,7 +151,9 @@ export default function CreateProduct() {
             </div>
           </div>
         </ScrollArea>
-        <Button variant="outline">Añadir</Button>
+        <Button variant="outline" type="submit">
+          Añadir
+        </Button>
       </form>
     </section>
   );

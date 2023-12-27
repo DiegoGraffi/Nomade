@@ -9,11 +9,13 @@ import { Button } from "@/components/ui/button";
 
 import axios from "axios";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 export default function CreateProduct() {
   const params = useParams();
   const id = params.id;
+
+  const router = useRouter();
 
   const { data: productData } = useSuspenseQuery({
     queryKey: ["product", id],
@@ -44,6 +46,7 @@ export default function CreateProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await axios.put("/api/productos/" + id, producto);
+    router.push("/products");
   };
 
   return (

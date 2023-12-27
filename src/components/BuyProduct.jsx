@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Button } from "./ui/button";
 import { formatPrice } from "@/lib/formatter";
+import placeholder from "../../public/images/placeholder-image.png";
 
 async function BuyProduct(props) {
   const { item } = props;
@@ -48,7 +49,7 @@ async function BuyProduct(props) {
         <div className="flex flex-row gap-2 justify-start items-center ">
           <div className="group min-w-[120px] max-w-[150px] h-[150px] relative border rounded-md bg-white overflow-hidden">
             <Image
-              src={product.image}
+              src={product.image ? product.image : placeholder}
               fill
               className="object-contain rounded-md p-2 group-hover:scale-[2] transition-all ease-in-out duration-200"
             />

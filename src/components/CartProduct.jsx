@@ -13,7 +13,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Separator } from "@/components/ui/separator";
-
+import placeholder from "../../public/images/placeholder-image.png";
 import Image from "next/image";
 import producto from "../../public/images/prod01.png";
 import { PiPlusCircle, PiMinusCircle, PiTrash } from "react-icons/pi";

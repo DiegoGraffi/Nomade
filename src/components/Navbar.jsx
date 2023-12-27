@@ -42,14 +42,6 @@ async function NavigationMenuDemo() {
           {user?.admin && (
             <li className="group text-xs font-light cursor-pointer bg-neutral-400 text-white hover:bg-black transition-all ease-in-out duration-150 py-2 px-3 rounded-md relative">
               <Link href="/admin">Admin</Link>
-              <ul className="hidden absolute w-max left-0 bg-neutral-400 rounded-md p-2 group-hover:flex flex-col justify-center items-center gap-2 mt-[10px] transition-all ease-in-out duration-150">
-                <li className="p-2 hover:bg-black transition-all ease-in-out duration-150 rounded-md">
-                  <Link href="/admin">Agregar Productos</Link>
-                </li>
-                <li className="p-2 hover:bg-black transition-all ease-in-out duration-150 rounded-md">
-                  <Link href="/admin/products">Eliminar Productos</Link>
-                </li>
-              </ul>
             </li>
           )}
         </ul>

@@ -3,6 +3,7 @@ import React from "react";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { formatPrice } from "@/lib/formatter";
+import placeholder from "../../public/images/placeholder-image.png";
 
 const Product = (props) => {
   const { data } = props;
@@ -12,7 +13,7 @@ const Product = (props) => {
       <Link href={"/products/productDetail" + "/" + data.id} className="w-full">
         <div className="aspect-square h-[180px] relative p-2  w-full rounded-md">
           <Image
-            src={data.image ? data.image : "http://placekitten.com/200/200"}
+            src={data.image ? data.image : placeholder}
             fill
             className="object-contain rounded-md"
           />

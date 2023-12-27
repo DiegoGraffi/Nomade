@@ -1,18 +1,11 @@
 "use client";
 
-import { useState, React } from "react";
+import React from "react";
 import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
-
-import AdminProduct from "../../components/AdminProduct";
-import axios from "axios";
 import Link from "next/link";
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { formatPrice } from "@/lib/formatter";
 
 const Admin = () => {
   const { data: products } = useSuspenseQuery({
@@ -25,34 +18,73 @@ const Admin = () => {
     queryFn: () => fetch("/api/categories").then((res) => res.json()),
   });
   return (
-    <section className="w-full min-h-screen mt-[80px] p-4 gap-4 flex justify-center items-center container mx-auto ">
-      <div className="flex flex-col p-4 border rounded-md w-max">
+    <section className="w-full min-h-screen mt-[80px] p-4 gap-4 flex flex-col md:flex-row justify-center items-start container mx-auto ">
+      <div className="flex flex-col p-4 border rounded-md flex-1">
         <p className="text-[36px] md:text-[64px] lg:text-[80px]">
           Panel Administrador
         </p>
         <Separator className="my-4" />
-        <ul>
+        <ul className="flex justify-end gap-2">
           <Link href="/admin/products/new">
-            <li>Nuevo producto</li>
+            <li className="border p-4 rounded-md bg-black text-white text-sm text-center hover:bg-accent hover:text-accent-foreground transition-all ease-in-out duration-200">
+              Nuevo producto
+            </li>
           </Link>
           <Link href="/admin/categories/new">
-            <li>nueva categoria</li>
+            <li className="border p-4 rounded-md bg-black text-white text-sm text-center hover:bg-accent hover:text-accent-foreground transition-all ease-in-out duration-200">
+              Nueva categoria
+            </li>
+          </Link>
+          <Link href="/admin/products">
+            <li className="border p-4 rounded-md bg-black text-white text-sm text-center hover:bg-accent hover:text-accent-foreground transition-all ease-in-out duration-200">
+              Eliminar productos
+            </li>
           </Link>
         </ul>
       </div>
 
-      <Card>
-        <CardHeader>
-          <h1>Productos</h1>
-        </CardHeader>
-        <CardBody>
-          {products.map((product) => (
-            <Link href={"/admin/products/" + product.id}>
-              <li>{product.name}</li>
-            </Link>
-          ))}
-        </CardBody>
-      </Card>
+      <div className="border rounded-md p-4 flex-1">
+        <div className="flex flex-col items-start">
+          <p className="font-semibold">Productos</p>
+          <p className="font-light text-sm mt-2">
+            La lista de productos ofrece una función de edición instantánea. Al
+            <span className="font-semibold">
+              {" "}
+              hacer clic en cualquiera de los elementos
+            </span>
+            , se activa la opción para modificar y ajustar los detalles del
+            producto seleccionado de manera sencilla y rápida.
+          </p>
+
+          <Separator className="my-4" />
+        </div>
+        <div className="flex flex-col">
+          {products.length > 0 ? (
+            products.map((product) => (
+              <Link href={"/admin/products/" + product.id}>
+                <div className="flex gap-2 justify-between items-center p-2 hover:bg-accent rounded-md transition-all ease-in-out duration-150">
+                  <div className="w-[100px] h-[100px] aspect-square rounded-md border relative bg-white">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-contain rounded-md p-2"
+                    />
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <p className="text-sm ">{product.name}</p>
+                    <p className="text-sm font-medium">
+                      {formatPrice(product.price)}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))
+          ) : (
+            <p>Todavia no hay productos agregados</p>
+          )}
+        </div>
+      </div>
     </section>
   );
 };

@@ -47,6 +47,8 @@ const Filters = () => {
     router.push("?" + searchParams);
   }
 
+  function removeCategory() {}
+
   function removeFilters() {
     router.push("?");
   }

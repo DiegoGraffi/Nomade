@@ -47,11 +47,8 @@ export default async function ProductDetail({ params }) {
           <div className="w-full flex flex-col md:flex-row gap-[25px] md:mt-[25px]">
             <div className="w-full p-4">
               <div className="flex gap-[10px]">
-                <Badge variant="secondary">Indumentaria</Badge>
+                <Badge variant="secondary"> stock: {productStock}</Badge>
               </div>
-              <p className="mt-4 font-xs opacity-50 font-light ">
-                stock: {productStock}
-              </p>
 
               <p className="mt-2 font-semibold text-3xl">{productTitle}</p>
               <p className="mt-4 text-[36px]">{formatPrice(productPrice)}</p>

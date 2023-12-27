@@ -185,19 +185,21 @@ async function Cart() {
                           <div className="border rounded-md p-4 w-full flex flex-col gap-2 mt-4">
                             <div className="w-full flex justify-between items-center">
                               <p>Nombre vendedor:</p>
-                              <p className="font-medium text-black">Nómade</p>
+                              <p className="font-medium text-black text-right">
+                                Nómade
+                              </p>
                             </div>
 
                             <div className="w-full flex justify-between items-center">
                               <p>Telefono:</p>
-                              <p className="font-medium text-black">
+                              <p className="font-medium text-black text-right">
                                 +2645168465
                               </p>
                             </div>
 
                             <div className="w-full flex justify-between items-center">
                               <p>Email contacto:</p>
-                              <p className="font-medium text-black">
+                              <p className="font-medium text-black text-right">
                                 nomade@gmail.com
                               </p>
                             </div>
@@ -212,28 +214,28 @@ async function Cart() {
                           <div className="border rounded-md p-4 w-full flex flex-col gap-2 mt-4">
                             <div className="w-full flex justify-between items-center">
                               <p>Nombre comprador:</p>
-                              <p className="font-medium text-black">
+                              <p className="font-medium text-black text-right">
                                 {user.name} {user.lastName}
                               </p>
                             </div>
 
                             <div className="w-full flex justify-between items-center">
                               <p>Telefono:</p>
-                              <p className="font-medium text-black">
+                              <p className="font-medium text-black text-right">
                                 +2643857651
                               </p>
                             </div>
 
                             <div className="w-full flex justify-between items-center">
                               <p>Dirección de envío:</p>
-                              <p className="font-medium text-black">
+                              <p className="font-medium text-black text-right">
                                 {user.address}
                               </p>
                             </div>
 
                             <div className="w-full flex justify-between items-center">
                               <p>Email contacto:</p>
-                              <p className="font-medium text-black">
+                              <p className="font-medium text-black text-right">
                                 {user.email}
                               </p>
                             </div>
