@@ -14,13 +14,13 @@ import prod9 from "../../public/images/prod09.png";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const ProductView = ({ image }) => {
-  const [imagen, setImagen] = useState(prod1);
+  const [imagen, setImagen] = useState(image);
 
   return (
     <div className="flex flex-col gap-[25px] justify-center items-center h-screen">
       <div className="w-[100%] md:w-[80%] h-[50%] relative flex justify-center items-center">
         <Image
-          src={image}
+          src={imagen}
           fill
           alt="imagen principal"
           className="rounded-lg object-contain"

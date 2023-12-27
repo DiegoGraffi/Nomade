@@ -25,7 +25,6 @@ const Admin = () => {
       ...producto,
       [e.target.name]: e.target.value,
     });
-    console.log(producto);
   };
 
   const handleSubmit = async (e) => {

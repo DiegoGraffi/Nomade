@@ -17,6 +17,7 @@ import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { cartItem } from "../../../db/schema";
 import { eq } from "drizzle-orm";
+import Link from "next/link";
 
 function InputWithLabel() {
   return (
@@ -68,6 +69,11 @@ async function Cart() {
                 <BuyProduct item={item} />
               ))}
             </div>
+
+            <Button className="mt-4">
+              {" "}
+              <Link href="/">Continuar comprando</Link>
+            </Button>
           </div>
           <div className="border rounded-b-md md:rounded-r-md md:rounded-bl-none md:border-l-0 w-full md:w-[30%] p-4">
             <Badge variant="secondary">Resumen</Badge>
