@@ -1,7 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import { Input } from "@/components/ui/input";
-import prod from "../../public/images/prod01.png";
 import { PiPlusCircle, PiMinusCircle, PiTrash } from "react-icons/pi";
 import { cartItem, products } from "../../db/schema";
 import { db } from "@/lib/db";
@@ -87,10 +85,10 @@ async function BuyProduct(props) {
 
         <div className="w-full flex items-center justify-center">
           <form action={deleteItem}>
-            <Button>
+            <Button className="group bg-white hover:bg-slate-200 shadow-none border">
               <PiTrash
-                size={20}
-                className="opacity-60 text-black hover:opacity-100 hover:text-red-700 cursor-pointer hover:scale-110 transition-all ease-in-out duration-150"
+                size={15}
+                className="opacity-60 text-black group-hover:opacity-100 group-hover:text-red-700 cursor-pointer hover:scale-110 transition-all ease-in-out duration-150"
               />
             </Button>
           </form>
@@ -131,10 +129,14 @@ async function BuyProduct(props) {
             </form>
           </div>
           <div className="cursor-pointer">
-            <PiTrash
-              size={20}
-              className="text-red-600 cursor-pointer hover:scale-110 transition-all ease-in-out duration-150"
-            />
+            <form action={deleteItem}>
+              <Button className="bg-white border shadow-none hover:bg-slate-200 transition-all ease-in-out duration-150">
+                <PiTrash
+                  size={20}
+                  className="text-red-600 cursor-pointer hover:scale-110 transition-all ease-in-out duration-150"
+                />
+              </Button>
+            </form>
           </div>
         </div>
       </div>

@@ -19,15 +19,6 @@ import { cartItem } from "../../../db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 
-function InputWithLabel() {
-  return (
-    <div className="grid w-full max-w-sm items-center gap-1.5">
-      <Label htmlFor="email">Email</Label>
-      <Input type="email" id="email" placeholder="Email" />
-    </div>
-  );
-}
-
 async function Cart() {
   const user = await getLoggedInUser();
 
@@ -70,15 +61,15 @@ async function Cart() {
               ))}
             </div>
 
-            <Button className="mt-4">
+            <Button className="mt-4 bg-black hover:bg-accent w-full shadow-none hover:text-accent-foreground border">
               {" "}
-              <Link href="/">Continuar comprando</Link>
+              <Link href="/products">Continuar comprando</Link>
             </Button>
           </div>
           <div className="border rounded-b-md md:rounded-r-md md:rounded-bl-none md:border-l-0 w-full md:w-[30%] p-4">
             <Badge variant="secondary">Resumen</Badge>
             <div className="border w-full mt-4 gap-4 h-max p-4 rounded-md flex justify-between flex-row md:flex-col lg:flex-row">
-              <p className="font-light">14 Productos</p>
+              <p className="font-light">{cartItems.length} Productos</p>
               <p className="font-medium">$ 962.102</p>
             </div>
 
