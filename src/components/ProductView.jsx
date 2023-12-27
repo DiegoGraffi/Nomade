@@ -17,7 +17,7 @@ const ProductView = ({ image }) => {
   const [imagen, setImagen] = useState(image);
 
   return (
-    <div className="flex flex-col gap-[25px] justify-center items-center h-screen">
+    <div className="flex flex-col gap-[100px] justify-center items-center h-[calc(100vh-60px)] mt-[60px]">
       <div className="w-[100%] md:w-[80%] h-[50%] relative flex justify-center items-center">
         <Image
           src={imagen}

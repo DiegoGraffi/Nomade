@@ -65,8 +65,8 @@ async function Cart() {
               </Badge>
             </div>
             <div className="w-full border rounded-md mt-4">
-              {cartItems.map((item) => (
-                <BuyProduct item={item} />
+              {cartItems.map((item, index) => (
+                <BuyProduct item={item} key={index} />
               ))}
             </div>
 

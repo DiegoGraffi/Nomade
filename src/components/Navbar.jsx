@@ -3,54 +3,10 @@ import Link from "next/link";
 import Logo from "../../public/images/Logo.svg";
 
 import { cn } from "@/lib/utils";
-// import { Icons } from "@/components/icons";
-
-import { PiUserBold, PiShoppingCartBold, PiXBold } from "react-icons/pi";
 import Image from "next/image";
-import CartProduct from "./CartProduct";
-import { ScrollArea } from "./ui/scroll-area";
 import { Button } from "./ui/button";
 import { getLoggedInUser, getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-
-const components = [
-  {
-    title: "Indumentaria",
-    href: "#",
-    description:
-      "Ropa diseñada para proteger y brindar comodidad al conducir motocicletas.",
-  },
-  {
-    title: "Protección",
-    href: "#",
-    description:
-      "Elementos esenciales para la seguridad del motociclista, como cascos y protectores.",
-  },
-  {
-    title: "Accesorios",
-    href: "#",
-    description:
-      "Componentes para mejorar el rendimiento y mantenimiento de la motocicleta.",
-  },
-  {
-    title: "Equipamiento para Viajes",
-    href: "#",
-    description:
-      "Productos diseñados para viajes largos en moto, como sistemas de almacenamiento y navegación.",
-  },
-  {
-    title: "Mantenimiento",
-    href: "#",
-    description:
-      "Artículos necesarios para el cuidado y funcionamiento adecuado de la motocicleta.",
-  },
-  {
-    title: "Tecnología y Seguridad",
-    href: "#",
-    description:
-      "Productos que integran tecnología para mejorar la seguridad y experiencia de conducción.",
-  },
-];
 
 async function NavigationMenuDemo() {
   const user = await getLoggedInUser();
@@ -68,19 +24,49 @@ async function NavigationMenuDemo() {
   return (
     <div className="flex flex-row justify-between py-3 px-[25px] w-screen absolute z-[10] top-0">
       <Image src={Logo} width={60} alt="logo" />
+      <div className="flex items-center">
+        <ul className="flex gap-2.5">
+          <li className="text-sm font-light cursor-pointer bg-black text-white hover:bg-neutral-800 transition-all ease-in-out duration-200 py-2 px-3 rounded-md">
+            <a href="/">Inicio</a>
+          </li>
+          <li className="text-sm font-light cursor-pointer bg-black text-white hover:bg-neutral-800 transition-all ease-in-out duration-200 py-2 px-3 rounded-md">
+            <a href="/#nosotros">Nosotros</a>
+          </li>
+          <li className="text-sm font-light cursor-pointer bg-black text-white hover:bg-neutral-800 transition-all ease-in-out duration-200 py-2 px-3 rounded-md">
+            <a href="/#category">Categorias</a>
+          </li>
+          <li className="text-sm font-light cursor-pointer bg-black text-white hover:bg-neutral-800 transition-all ease-in-out duration-200 py-2 px-3 rounded-md">
+            <a href="/#contacto">Contacto</a>
+          </li>
+          <li className="text-sm font-light cursor-pointer bg-black text-white hover:bg-neutral-800 transition-all ease-in-out duration-200 py-2 px-3 rounded-md">
+            <a href="/products">Productos</a>
+          </li>
+        </ul>
+      </div>
       {user ? (
-        <>
-          <h1>Hola {user.name}!</h1>
+        <div className="flex gap-2 items-center">
+          <h1>
+            Hola <b>{user.name}</b>!
+          </h1>
           <form action={logout}>
-            <Button>Cerrar Sesion</Button>
+            <Button className="bg-black hover:bg-red-700 text-xs">
+              Cerrar Sesion
+            </Button>
           </form>
           <Link href="/cart">
-            <Button>Carrito</Button>
+            <Button className="bg-black hover:bg-blue-700 text-xs">
+              Carrito
+            </Button>
           </Link>
-        </>
+        </div>
       ) : (
         <Link href="/register">
-          <Button>Iniciar Sesion</Button>
+          <Button className="bg-black hover:bg-neutral-800">
+            <p className="font-light">
+              Iniciar Sesión /{" "}
+              <span className="font-semibold">Registrarse</span>
+            </p>
+          </Button>
         </Link>
       )}
     </div>

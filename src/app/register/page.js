@@ -100,7 +100,7 @@ export default function Register() {
                     />
                   </div>
 
-                  <Button className="bg-black hover:bg-neutral-600">
+                  <Button className="bg-black hover:bg-neutral-800 mt-4 w-full">
                     Iniciar Sesión
                   </Button>
                 </form>
@@ -179,7 +179,7 @@ export default function Register() {
                     />
                   </div>
 
-                  <Button className="bg-black hover:bg-neutral-600 mt-4 text-white">
+                  <Button className="bg-black hover:bg-neutral-800 mt-4 w-full text-white">
                     Registrarse
                   </Button>
                 </form>

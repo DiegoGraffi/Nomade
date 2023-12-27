@@ -14,7 +14,6 @@ export async function ProductDetail({ params }) {
     .select()
     .from(products)
     .where(eq(products.id, params.id));
-  console.log(product);
 
   if (product.length === 0) {
     notFound();

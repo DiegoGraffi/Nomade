@@ -36,37 +36,31 @@ const Footer = () => {
 
           <CardContent className="pt-5 flex flex-col items-center md:items-start">
             <Link
-              href="#"
+              href="/"
               className="text-sm opacity-60 hover:opacity-100 transition-all ease-in-out duration-150"
             >
               Inicio
             </Link>
             <Link
-              href="#"
+              href="/products"
               className="text-sm opacity-60 hover:opacity-100 transition-all ease-in-out duration-150"
             >
               Productos
             </Link>
             <Link
-              href="#"
+              href="/#nosotros"
               className="text-sm opacity-60 hover:opacity-100 transition-all ease-in-out duration-150"
             >
               Nosotros
             </Link>
             <Link
-              href="#"
-              className="text-sm opacity-60 hover:opacity-100 transition-all ease-in-out duration-150"
-            >
-              Galeria
-            </Link>
-            <Link
-              href="#"
+              href="/cart"
               className="text-sm opacity-60 hover:opacity-100 transition-all ease-in-out duration-150"
             >
               Carrito
             </Link>
             <Link
-              href="#"
+              href="/#contacto"
               className="text-sm opacity-60 hover:opacity-100 transition-all ease-in-out duration-150"
             >
               Contacto

@@ -60,7 +60,9 @@ const Inicio = () => {
           className="absolute -z-10 opacity-25"
         />
         <div className="rounded-full w-10 h-10 bg-black mt-[20px] mx-auto absolute bottom-14 flex justify-center items-center p-2 hover:scale-110 cursor-pointer transition-all duration-200 ease-in-out">
-          <PiArrowDown color="white" size={25} />
+          <a href="#nosotros">
+            <PiArrowDown color="white" size={25} />
+          </a>
         </div>
       </section>
 
