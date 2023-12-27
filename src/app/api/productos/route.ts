@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { products } from "../../../../db/schema";
 import { eq, gte, lte, and, asc, desc, like } from "drizzle-orm";
 import { type NextRequest } from "next/server";
+import { z } from "zod";
 
 export const dynamic = "force-dynamic"; // defaults to auto
 
@@ -12,6 +13,7 @@ export async function GET(request: NextRequest) {
   const minPrice = searchParams.get("minPrice");
   const maxPrice = searchParams.get("maxPrice");
   const sort = searchParams.get("sort") ?? "asc";
+  const category = searchParams.get("category");
   const allProducts = await db
     .select()
     .from(products)
@@ -19,7 +21,8 @@ export async function GET(request: NextRequest) {
       and(
         minPrice ? gte(products.price, parseInt(minPrice)) : undefined,
         maxPrice ? lte(products.price, parseInt(maxPrice)) : undefined,
-        search ? like(products.name, "%" + search + "%") : undefined
+        search ? like(products.name, "%" + search + "%") : undefined,
+        category ? eq(products.category_id, parseInt(category)) : undefined
       )
     )
     .orderBy(sort === "asc" ? asc(products.price) : desc(products.price));
@@ -28,9 +31,20 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const schema = z.object({
+      name: z.string(),
+      price: z.coerce.number(),
+      description: z.string(),
+      stock: z.coerce.number().int(),
+      category_id: z.coerce.number().int(),
+      image: z.string().optional(),
+    });
     const res = await request.json();
-    const dbInsert = await db.insert(products).values(res);
+
+    const values = schema.parse(res);
+    const dbInsert = await db.insert(products).values(values);
     const newId = parseInt(dbInsert.insertId);
+    // Esto sirve para pedir el producto previamente insertado
     const newProduct = await db
       .select()
       .from(products)
@@ -38,7 +52,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(newProduct[0]);
   } catch (e) {
-    console.log(e);
-    return NextResponse.error();
+    return NextResponse.json(e, { status: 500 });
   }
 }

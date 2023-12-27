@@ -27,15 +27,14 @@ export default function Products() {
         <div className="flex flex-col md:flex-row mt-[80px] md:gap-0">
           <Filters />
           <div className="border border-t-0 md:border-t w-full md:w-[75%] p-4 rounded-b-md md:rounded-bl-none md:rounded-r-md grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[10px] justify-center items-center">
-            {data.length === 0 ? (
+            {data.length === 0 && (
               <p className="text-[32px] border w-full mx-auto">
                 Aún no hay productos agregados
               </p>
-            ) : (
-              data.map((product, index) => (
-                <Product key={index} data={product} />
-              ))
             )}
+            {data.map((product, index) => (
+              <Product key={index} data={product} />
+            ))}
           </div>
         </div>
       </section>

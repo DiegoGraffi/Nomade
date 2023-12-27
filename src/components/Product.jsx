@@ -11,8 +11,13 @@ const Product = (props) => {
     <div className="rounded-md flex flex-col justify-center items-center p-4  md:h-[350px] md:max-h-[350px] border">
       <Link href={"/products/productDetail" + "/" + data.id} className="w-full">
         <div className="aspect-square h-[180px] relative p-2  w-full rounded-md">
-          <Image src={data.image} fill className="object-contain rounded-md" />
+          <Image
+            src={data.image ? data.image : "http://placekitten.com/200/200"}
+            fill
+            className="object-contain rounded-md"
+          />
         </div>
+
         <div className="bg-gray-50 rounded-md w-full mt-4 p-2 h-[100px]">
           <div className="h-[50%] overflow-hidden">
             <p className="text-sm font-light ">{data.name}</p>

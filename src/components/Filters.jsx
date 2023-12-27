@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 const Filters = () => {
   const params = useSearchParams();
@@ -21,8 +22,13 @@ const Filters = () => {
   const [minPrice, setMinPrice] = useState(params.get("minPrice") ?? "");
   const [maxPrice, setMaxPrice] = useState(params.get("maxPrice") ?? "");
   const [sort, setSort] = useState("");
-
+  const [category, setCategory] = useState(params.get("category") ?? "");
   const router = useRouter();
+
+  const { data } = useSuspenseQuery({
+    queryKey: ["categories"],
+    queryFn: () => fetch("/api/categories").then((res) => res.json()),
+  });
 
   function applyFilters() {
     const searchParams = new URLSearchParams({
@@ -30,6 +36,7 @@ const Filters = () => {
       minPrice,
       maxPrice,
       sort,
+      category,
     });
 
     // Funcion que elimina el parametro en caso de estar vacio
@@ -103,18 +110,16 @@ const Filters = () => {
         <div className="grid w-full max-w-sm items-center gap-1.5 my-4">
           <Label>Categorias</Label>
 
-          <Select className="mt-2">
+          <Select className="mt-2" value={category} onValueChange={setCategory}>
             <SelectTrigger className="w-full mt-2">
               <SelectValue placeholder="Categorías" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Todos los productos</SelectItem>
-              <SelectItem value="indumentaria">Indumentaria</SelectItem>
-              <SelectItem value="proteccion">Protección</SelectItem>
-              <SelectItem value="accesorios">Accesorios</SelectItem>
-              <SelectItem value="viajes">Equipamiento para viajes</SelectItem>
-              <SelectItem value="mantenimiento">Mantenimiento</SelectItem>
-              <SelectItem value="tecnologia">Tecnología y seguridad</SelectItem>
+              {data.map((category) => (
+                <SelectItem value={category.id} key={category.id}>
+                  {category.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

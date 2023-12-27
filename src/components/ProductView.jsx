@@ -20,7 +20,7 @@ const ProductView = ({ image }) => {
     <div className="flex flex-col gap-[100px] justify-center items-center h-[calc(100vh-60px)] mt-[60px]">
       <div className="w-[100%] md:w-[80%] h-[50%] relative flex justify-center items-center">
         <Image
-          src={imagen}
+          src={imagen ? imagen : "http://placekitten.com/500/500"}
           fill
           alt="imagen principal"
           className="rounded-lg object-contain"
