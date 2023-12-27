@@ -33,14 +33,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { Skeleton } from "@/components/ui/skeleton";
-
 import { Separator } from "@/components/ui/separator";
 
 import { PiUserBold, PiShoppingCartBold, PiXBold } from "react-icons/pi";
 import Image from "next/image";
 import CartProduct from "./CartProduct";
 import { ScrollArea } from "./ui/scroll-area";
+import { Button } from "./ui/button";
 
 const components = [
   {
@@ -83,7 +82,7 @@ const components = [
 
 function NavigationMenuDemo() {
   return (
-    <div className="flex flex-row justify-between py-3 px-[25px] w-screen absolute z-[10000] top-0">
+    <div className="flex flex-row justify-between py-3 px-[25px] w-screen absolute z-[10] top-0">
       <Image src={Logo} width={60} alt="logo" />
       <NavigationMenu>
         <NavigationMenuList>
@@ -142,7 +141,7 @@ function NavigationMenuDemo() {
           <NavigationMenuItem>
             <Link href="#" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <Sheet>
+                <Sheet className="z-[100000]">
                   <SheetTrigger>Carrito</SheetTrigger>
                   <SheetContent>
                     <SheetHeader>
@@ -154,7 +153,7 @@ function NavigationMenuDemo() {
                       </SheetDescription>
                     </SheetHeader>
 
-                    <ScrollArea className="mt-[25px] flex flex-col h-full relative">
+                    <ScrollArea className="mt-[25px] flex flex-col h-[70%] relative border p-4 rounded-md">
                       <CartProduct />
                       <CartProduct />
                       <CartProduct />
@@ -168,6 +167,18 @@ function NavigationMenuDemo() {
                       <CartProduct />
                       <CartProduct />
                     </ScrollArea>
+
+                    <div className="border rounded-md mt-4 p-4 w-full h-min flex flex-col gap-4">
+                      <div className="flex justify-between items-center">
+                        <p className="font-light">8 Items</p>
+                        <p className="font-medium">$999.999</p>
+                      </div>
+                      <div className="w-full">
+                        <Button variant="outline" className="w-full">
+                          Ir a pagar
+                        </Button>
+                      </div>
+                    </div>
                   </SheetContent>
                 </Sheet>
               </NavigationMenuLink>
