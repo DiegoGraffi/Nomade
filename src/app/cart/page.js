@@ -15,7 +15,7 @@ import {
 import { getLoggedInUser } from "@/lib/auth";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
-import { cartItem } from "../../../db/schema";
+import { cartItem, products } from "../../../db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 
@@ -30,6 +30,17 @@ async function Cart() {
     .select()
     .from(cartItem)
     .where(eq(cartItem.user_id, user.id));
+
+  let total = 0;
+
+  for (const item of cartItems) {
+    const [product] = await db
+      .select()
+      .from(products)
+      .where(eq(products.id, item.product_id));
+
+    total += product.price * item.quantity;
+  }
 
   return (
     <div>
@@ -69,8 +80,11 @@ async function Cart() {
           <div className="border rounded-b-md md:rounded-r-md md:rounded-bl-none md:border-l-0 w-full md:w-[30%] p-4">
             <Badge variant="secondary">Resumen</Badge>
             <div className="border w-full mt-4 gap-4 h-max p-4 rounded-md flex justify-between flex-row md:flex-col lg:flex-row">
-              <p className="font-light">{cartItems.length} Productos</p>
-              <p className="font-medium">$ 962.102</p>
+              <p className="font-light">
+                {cartItems.reduce((acc, item) => acc + item.quantity, 0)}{" "}
+                Productos
+              </p>
+              <p className="font-medium">$ {total}</p>
             </div>
 
             <div className="flex flex-col gap-4 w-full p-4 rounded-md border mt-4">
@@ -111,7 +125,7 @@ async function Cart() {
             <div className="border w-full mt-4 gap-4 h-max p-4 rounded-md">
               <div className="flex flex-row md:flex-col lg:flex-row justify-between">
                 <p className="font-light">Costo total</p>
-                <p className="font-medium">$ 965.602</p>
+                <p className="font-medium">$ {total}</p>
               </div>
               <Button
                 variant="outline"
