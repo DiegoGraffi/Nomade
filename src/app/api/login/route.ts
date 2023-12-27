@@ -2,18 +2,10 @@ import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { users } from "../../../../db/schema";
 import { eq } from "drizzle-orm";
-import { getIronSession } from "iron-session";
 import { getSession } from "@/lib/auth";
+import bcrypt from "bcrypt";
 
 export const dynamic = "force-dynamic";
-
-//pasos
-// 1 - validar email y contraseña
-// 2 - buscar un usuario en la db con el email (si no existe putearlo)
-// 3 - validar que la contraseña de la db y la contraseña del json sean iguales (caso que no putearlo)
-// 4 - logeado master (te mandamos un token)
-// https://github.com/vvo/iron-session
-
 export async function POST(request: Request) {
   try {
     const res = await request.json();
@@ -29,7 +21,6 @@ export async function POST(request: Request) {
       .from(users)
       .where(eq(users.email, res.email));
     if (dbUsers.length === 0) {
-      // no lo encontramos putear
       console.log("No se encontró");
       return NextResponse.json({
         error: "No se encontró el mail en nuestra base de datos",
@@ -38,7 +29,9 @@ export async function POST(request: Request) {
 
     const user = dbUsers[0];
 
-    if (user.password !== res.password) {
+    const passwordMatch = await bcrypt.compare(res.password, user.password);
+
+    if (!passwordMatch) {
       return NextResponse.json({ message: "Las contraseña no es correcta" });
     }
 

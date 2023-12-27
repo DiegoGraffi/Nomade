@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { users } from "../../../../db/schema";
 import { eq } from "drizzle-orm";
+import bcrypt from "bcrypt";
 
 export const dynamic = "force-dynamic"; // defaults to auto
 
@@ -22,7 +23,12 @@ export async function POST(request: Request) {
     } else if (res.password != res.repeatPassword) {
       return NextResponse.json({ error: "Las contraseñas deben coincidir" });
     }
-    const dbInsert = await db.insert(users).values(res);
+
+    const hashedPassword = await bcrypt.hash(res.password, 10);
+
+    const userData = { ...res, password: hashedPassword };
+
+    const dbInsert = await db.insert(users).values(userData);
     const newId = parseInt(dbInsert.insertId);
     const newUser = await db.select().from(users).where(eq(users.id, newId));
     console.log(newUser);

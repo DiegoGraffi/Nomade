@@ -9,7 +9,6 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import Fondo from "../../../public/images/fondo-1.jpg";
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,45 +16,12 @@ import Image from "next/image";
 import { PiMotorcycleFill } from "react-icons/pi";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { userSchema } from "@/validations/userSchema";
 
 export default function Register() {
-  const [formData, setFormData] = useState({
-    name: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    password: "",
-    repeatPassword: "",
-    address: "",
-  });
-
-  const [formLogin, setFormLogin] = useState({
-    email: "",
-    password: "",
-  });
-
-  const router = useRouter();
-
-  const handleChangeLogin = (e) => {
-    setFormLogin({ ...formLogin, [e.target.name]: e.target.value });
-  };
-
-  const handleChangeRegister = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmitLogin = async (e) => {
-    e.preventDefault();
-    const res = await axios.post("/api/login", formLogin);
-    router.push("/");
-  };
-
-  const handleSubmitRegister = async (e) => {
-    e.preventDefault();
-    const res = await axios.post("/api/register", formData);
-    router.push("/");
-  };
-
   return (
     <div className="w-screen overflow-hidden">
       <div className="w-screen min-h-screen flex ">
@@ -71,121 +37,10 @@ export default function Register() {
             <TabsTrigger value="password">Register</TabsTrigger>
           </TabsList>
           <TabsContent value="account">
-            <Card>
-              <CardHeader>
-                <CardDescription>
-                  ¡Bienvenido! Estamos encantados de verte de nuevo. Por favor,
-                  ingresa tus credenciales para acceder a tu cuenta.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <form onSubmit={handleSubmitLogin}>
-                  <div className="space-y-1">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      placeholder="email@gmail.com"
-                      onChange={handleChangeLogin}
-                      name="email"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="password">Contraseña</Label>
-                    <Input
-                      id="password"
-                      placeholder="Contraseña"
-                      type="password"
-                      onChange={handleChangeLogin}
-                      name="password"
-                    />
-                  </div>
-
-                  <Button className="bg-black hover:bg-neutral-800 mt-4 w-full">
-                    Iniciar Sesión
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
+            <LoginCard />
           </TabsContent>
           <TabsContent value="password">
-            <Card>
-              <CardHeader>
-                <CardDescription>
-                  Únete a nuestra comunidad. Completa los detalles a
-                  continuación para crear tu cuenta personalizada y comenzar tu
-                  viaje con nosotros.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <form onSubmit={handleSubmitRegister}>
-                  <div className="space-y-1">
-                    <Label htmlFor="name">Nombre</Label>
-                    <Input
-                      type="text"
-                      id="name"
-                      name="name"
-                      onChange={handleChangeRegister}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="lastName">Apellido</Label>
-                    <Input
-                      id="lastName"
-                      name="lastName"
-                      onChange={handleChangeRegister}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      onChange={handleChangeRegister}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="phone">Teléfono</Label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      onChange={handleChangeRegister}
-                    />
-                  </div>
-                  <div className="space-y-1 ">
-                    <Label htmlFor="address">Dirección</Label>
-                    <Input
-                      id="address"
-                      type="text"
-                      name="address"
-                      onChange={handleChangeRegister}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="password">Contraseña</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      name="password"
-                      onChange={handleChangeRegister}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="repeatPassword">Repetir contraseña</Label>
-                    <Input
-                      id="repeatPassword"
-                      type="password"
-                      name="repeatPassword"
-                      onChange={handleChangeRegister}
-                    />
-                  </div>
-
-                  <Button className="bg-black hover:bg-neutral-800 mt-4 w-full text-white">
-                    Registrarse
-                  </Button>
-                </form>
-              </CardContent>
-              <CardFooter></CardFooter>
-            </Card>
+            <RegisterCard />
           </TabsContent>
         </Tabs>
         <div className="relative flex-1 w-[60%]">
@@ -193,5 +48,227 @@ export default function Register() {
         </div>
       </div>
     </div>
+  );
+}
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+function LoginCard() {
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
+
+  async function handleLogin(values) {
+    try {
+      const res = await axios.post("/api/login", values);
+      router.push("/");
+    } catch (error) {
+      console.error("Error en inicio de sesión:", error);
+    }
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardDescription>
+          ¡Bienvenido! Estamos encantados de verte de nuevo. Por favor, ingresa
+          tus credenciales para acceder a tu cuenta.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <form onSubmit={handleSubmit(handleLogin)}>
+          <div className="space-y-1">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              placeholder="email@gmail.com"
+              name="email"
+              {...register("email", { required: true })}
+            />
+            {errors.email?.message && (
+              <span className="text-red-500 text-xs">
+                {errors.email?.message}
+              </span>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="password">Contraseña</Label>
+            <Input
+              id="password"
+              placeholder="Contraseña"
+              type="password"
+              name="password"
+              {...register("password", { required: true })}
+            />
+            {errors.password?.message && (
+              <span className="text-red-500 text-xs">
+                {errors.password?.message}
+              </span>
+            )}
+          </div>
+
+          <Button
+            className="bg-black hover:bg-neutral-800 mt-4 w-full"
+            type="submit"
+          >
+            Iniciar Sesión
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}
+
+function RegisterCard() {
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(userSchema),
+  });
+
+  async function handleRegister(values) {
+    try {
+      const res = await axios.post("/api/register", values);
+      if (res.data && !res.data.error) {
+        router.push("/");
+      } else {
+        console.error("Error en registro:", res.data.error);
+      }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        error.errors.map((validationError) => {
+          setError(validationError.path[0], {
+            type: "manual",
+            message: validationError.message,
+          });
+        });
+      } else {
+        console.error("Error en registro:", error);
+      }
+    }
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardDescription>
+          Únete a nuestra comunidad. Completa los detalles a continuación para
+          crear tu cuenta personalizada y comenzar tu viaje con nosotros.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <form onSubmit={handleSubmit(handleRegister)}>
+          <div className="space-y-1">
+            <Label htmlFor="name">Nombre</Label>
+            <Input
+              type="text"
+              id="name"
+              {...register("name", { required: true })}
+            />
+            {errors.name?.message && (
+              <span className="text-red-500 text-xs">
+                {errors.name?.message}
+              </span>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="lastName">Apellido</Label>
+            <Input
+              type="text"
+              id="lastName"
+              {...register("lastName", { required: true })}
+            />
+            {errors.lastName?.message && (
+              <span className="text-red-500 text-xs">
+                {errors.lastName?.message}
+              </span>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="email"
+              id="email"
+              {...register("email", { required: true })}
+            />
+            {errors.email?.message && (
+              <span className="text-red-500 text-xs">
+                {errors.email?.message}
+              </span>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="phone">Teléfono</Label>
+            <Input
+              type="text"
+              id="phone"
+              {...register("phone", { required: true })}
+            />
+            {errors.phone?.message && (
+              <span className="text-red-500 text-xs">
+                {errors.phone?.message}
+              </span>
+            )}
+          </div>
+          <div className="space-y-1 ">
+            <Label htmlFor="address">Dirección</Label>
+            <Input
+              id="address"
+              type="text"
+              {...register("address", { required: true })}
+            />
+            {errors.address?.message && (
+              <span className="text-red-500 text-xs">
+                {errors.address?.message}
+              </span>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="password">Contraseña</Label>
+            <Input
+              id="password"
+              type="password"
+              {...register("password", { required: true })}
+            />
+            {errors.password?.message && (
+              <span className="text-red-500 text-xs">
+                {errors.password?.message}
+              </span>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="repeatPassword">Repetir contraseña</Label>
+            <Input
+              id="repeatPassword"
+              type="password"
+              {...register("repeatPassword", { required: true })}
+            />
+            {errors.repeatPassword?.message && (
+              <span className="text-red-500 text-xs">
+                {errors.repeatPassword?.message}
+              </span>
+            )}
+          </div>
+
+          <Button
+            type="submit"
+            className="bg-black hover:bg-neutral-800 mt-4 w-full text-white"
+          >
+            Registrarse
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }
