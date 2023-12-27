@@ -6,6 +6,7 @@ import {
   varchar,
   serial,
   text,
+  boolean,
 } from "drizzle-orm/mysql-core";
 
 // declaring enum in database
@@ -23,10 +24,11 @@ export const users = mysqlTable("users", {
   id: serial("id").primaryKey(),
   name: text("name"),
   lastName: text("lastName"),
-  email: text("email"),
+  email: varchar("email", { length: 255 }).unique(),
   phone: text("phone"),
   password: text("password"),
-  adress: text("adress"),
+  address: text("address"),
+  admin: boolean("admin").default(false),
 });
 
 export const category = mysqlTable("category", {
@@ -36,6 +38,7 @@ export const category = mysqlTable("category", {
 
 export const cartItem = mysqlTable("cartItem", {
   id: serial("id").primaryKey(),
-  name: text("name"),
-  amount: int("amount"),
+  quantity: int("quantity"),
+  product_id: int("product_id"),
+  user_id: int("user_id"),
 });

@@ -4,23 +4,28 @@ import { Toggle } from "@/components/ui/toggle";
 import prod from "../../public/images/prod01.png";
 import { PiHeart } from "react-icons/pi";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 
-const Product = () => {
+const Product = (props) => {
+  const { data } = props;
+
   return (
-    <div className="border rounded-md flex flex-col justify-center items-center p-4">
-      <div className="aspect-square h-[180px] relative p-2  w-full rounded-md">
-        <Toggle className="absolute z-[2] bg-neutral-400 rounded-full">
-          <PiHeart />
-        </Toggle>
+    <div className="rounded-md flex flex-col justify-center items-center p-4  md:h-[350px] md:max-h-[350px] border">
+      <Link href={"/products/productDetail" + "/" + data.id} className="w-full">
+        <div className="aspect-square h-[180px] relative p-2  w-full rounded-md">
+          <Image src={data.image} fill className="object-cover rounded-md" />
+        </div>
+        <div className="bg-gray-50 rounded-md w-full mt-4 p-2 h-[100px]">
+          <div className="h-[50%] overflow-hidden">
+            <p className="text-sm font-light ">{data.name}</p>
+          </div>
+          <Separator className="my-2" />
 
-        <Image src={prod} fill className="object-cover rounded-md" />
-      </div>
-      <div className="bg-gray-50 rounded-md w-full mt-4 p-2">
-        <p className="text-sm  font-light">Campera Cordura Hombre Gallant</p>
-        <Separator className="my-2" />
-
-        <p className="text-lg md:text-lg font-medium">$479.210</p>
-      </div>
+          <p className="text-lg md:text-lg font-medium h-[40%]">
+            ${data.price}
+          </p>
+        </div>
+      </Link>
     </div>
   );
 };

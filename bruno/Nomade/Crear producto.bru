@@ -5,7 +5,15 @@ meta {
 }
 
 post {
-  url: 
-  body: none
+  url: http://localhost:3000/api/products
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "name": "Casco Nolan N80-8 Starscream N-com",
+    "price": 573282,
+    "description": "Nolan está diseñado para brindarte una experiencia inolvidable en cada uno de tus viajes."
+  }
 }

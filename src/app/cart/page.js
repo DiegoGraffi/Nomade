@@ -12,6 +12,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getLoggedInUser } from "@/lib/auth";
+import { notFound } from "next/navigation";
+import { db } from "@/lib/db";
+import { cartItem } from "../../../db/schema";
+import { eq } from "drizzle-orm";
 
 function InputWithLabel() {
   return (
@@ -22,7 +27,18 @@ function InputWithLabel() {
   );
 }
 
-const Cart = () => {
+async function Cart() {
+  const user = await getLoggedInUser();
+
+  if (!user) {
+    notFound();
+  }
+
+  const cartItems = await db
+    .select()
+    .from(cartItem)
+    .where(eq(cartItem.user_id, user.id));
+
   return (
     <div>
       <section className="min-h-screen w-screen p-4 container mx-auto">
@@ -48,20 +64,9 @@ const Cart = () => {
               </Badge>
             </div>
             <div className="w-full border rounded-md mt-4">
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
-              <BuyProduct />
+              {cartItems.map((item) => (
+                <BuyProduct item={item} />
+              ))}
             </div>
           </div>
           <div className="border rounded-b-md md:rounded-r-md md:rounded-bl-none md:border-l-0 w-full md:w-[30%] p-4">
@@ -123,6 +128,6 @@ const Cart = () => {
       </section>
     </div>
   );
-};
+}
 
 export default Cart;

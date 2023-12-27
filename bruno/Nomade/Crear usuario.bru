@@ -1,0 +1,23 @@
+meta {
+  name: Crear usuario
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/api/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "pedro",
+    "lastName": "quintero",
+    "email": "juan@gmail.com",
+    "phone": 21368546513,
+    "password": 333,
+    "repeatPassword": 333,
+    "adress": "san juan"
+  }
+}

@@ -19,6 +19,7 @@ export async function POST(request: Request) {
       .select()
       .from(products)
       .where(eq(products.id, newId));
+
     return NextResponse.json(newProduct[0]);
   } catch (e) {
     console.log(e);

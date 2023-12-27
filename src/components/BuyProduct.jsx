@@ -3,39 +3,73 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import prod from "../../public/images/prod01.png";
 import { PiPlusCircle, PiMinusCircle, PiTrash } from "react-icons/pi";
+import { cartItem, products } from "../../db/schema";
+import { db } from "@/lib/db";
+import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import { Button } from "./ui/button";
 
-const BuyProduct = () => {
+async function BuyProduct(props) {
+  const { item } = props;
+  const [product] = await db
+    .select()
+    .from(products)
+    .where(eq(products.id, props.item.product_id));
+
+  async function addOne() {
+    "use server";
+    await db
+      .update(cartItem)
+      .set({ quantity: item.quantity + 1 })
+      .where(eq(cartItem.id, item.id));
+
+    revalidatePath("/cart");
+  }
+
+  async function removeOne() {
+    "use server";
+    await db
+      .update(cartItem)
+      .set({ quantity: item.quantity - 1 })
+      .where(eq(cartItem.id, item.id));
+
+    revalidatePath("/cart");
+  }
   return (
     <div>
       <div className="hidden w-full p-4 md:grid grid-cols-[2fr,1fr,1fr,.5fr] items-center hover:bg-slate-50">
-        <div className="flex flex-row gap-2 justify-center items-center ">
+        <div className="flex flex-row gap-2 justify-start items-center ">
           <div className="w-[150px] h-[150px] relative border rounded-md bg-white">
             <Image src={prod} fill className="object-contain rounded-md" />
           </div>
-          <p>Campera Cordura Hombre Gallant</p>
+          <p>{product.name}</p>
         </div>
 
         <div className="flex flex-col md:flex-row gap-5 md:gap-0 w-full justify-around items-center py-2">
           <div className="cursor-pointer">
-            <PiMinusCircle
-              size={20}
-              className="opacity-60 hover:opacity-100 text-black hover:scale-110 transition-all ease-in-out duration-150"
-            />
+            <form action={removeOne}>
+              <Button className="bg-white border shadow-none hover:bg-slate-200 transition-all ease-in-out duration-150">
+                <PiMinusCircle size={20} className="opacity-100 text-black" />
+              </Button>
+            </form>
           </div>
           <div>
-            <p className="font-light text-sm md:font-medium md:text-base">01</p>
+            <p className="font-light text-sm md:font-medium md:text-base">
+              {item.quantity}
+            </p>
           </div>
           <div className="cursor-pointer">
-            <PiPlusCircle
-              size={20}
-              className="opacity-60 hover:opacity-100 text-black hover:scale-110 transition-all ease-in-out duration-150"
-            />
+            <form action={addOne}>
+              <Button className="bg-white border shadow-none hover:bg-slate-200 transition-all ease-in-out duration-150">
+                <PiPlusCircle size={20} className="opacity-100 text-black" />
+              </Button>
+            </form>
           </div>
         </div>
 
         <div className="w-full md:flex items-center justify-center hidden">
           <p className="font-ligth text-sm md:font-medium md:text-base">
-            $ 479.210{" "}
+            ${product.price * item.quantity}
           </p>
         </div>
 
@@ -82,6 +116,6 @@ const BuyProduct = () => {
       </div>
     </div>
   );
-};
+}
 
 export default BuyProduct;
