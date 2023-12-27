@@ -35,6 +35,14 @@ async function BuyProduct(props) {
 
     revalidatePath("/cart");
   }
+
+  async function deleteItem() {
+    "use server";
+    await db.delete(cartItem).where(eq(cartItem.id, item.id));
+
+    revalidatePath("/cart");
+  }
+
   return (
     <div>
       <div className="hidden w-full p-4 md:grid grid-cols-[2fr,1fr,1fr,.5fr] items-center hover:bg-slate-50">
@@ -78,10 +86,14 @@ async function BuyProduct(props) {
         </div>
 
         <div className="w-full flex items-center justify-center">
-          <PiTrash
-            size={20}
-            className="opacity-60 text-black hover:opacity-100 hover:text-red-700 cursor-pointer hover:scale-110 transition-all ease-in-out duration-150"
-          />
+          <form action={deleteItem}>
+            <Button>
+              <PiTrash
+                size={20}
+                className="opacity-60 text-black hover:opacity-100 hover:text-red-700 cursor-pointer hover:scale-110 transition-all ease-in-out duration-150"
+              />
+            </Button>
+          </form>
         </div>
       </div>
 

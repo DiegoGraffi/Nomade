@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
 const Filters = () => {
   const [search, setSearch] = useState("");
@@ -55,6 +56,7 @@ const Filters = () => {
               onChange={(e) => setMaxPrice(e.target.value)}
             />
           </div>
+          <Button className="bg-black">Aplicar filtro</Button>
         </div>
 
         <div className="grid w-full max-w-sm items-center gap-1.5 my-4">

@@ -12,7 +12,7 @@ export default async function AdminProducts() {
 
     const id = formData.get("id");
 
-    await db.delete(products).where(eq(product.id, id));
+    await db.delete(products).where(eq(products.id, id));
     await db.delete(cartItem).where(eq(cartItem.product_id, id));
 
     revalidatePath("/admin/products");
@@ -26,7 +26,7 @@ export default async function AdminProducts() {
             {product.name}
 
             <form action={deleteProduct}>
-              <input name="id" value={product.id} className="hidden" />
+              <input name="id" defaultValue={product.id} className="hidden" />
               <Button>Borrar</Button>
             </form>
           </li>
