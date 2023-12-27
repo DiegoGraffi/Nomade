@@ -9,7 +9,7 @@ import ProductView from "../../../../components/ProductView";
 import { notFound, redirect } from "next/navigation";
 import { getLoggedInUser } from "@/lib/auth";
 
-export async function ProductDetail({ params }) {
+export default async function ProductDetail({ params }) {
   const product = await db
     .select()
     .from(products)
@@ -134,5 +134,3 @@ export async function ProductDetail({ params }) {
     </div>
   );
 }
-
-export default ProductDetail;
