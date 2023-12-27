@@ -1,11 +1,25 @@
-import React from "react";
+"use client";
+import { useState } from "react";
 import Product from "@/components/Product";
-import { db } from "@/lib/db";
-import { products } from "../../../db/schema";
 import Filters from "../../components/Filters";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 
-export default async function Products() {
-  const allProducts = await db.select().from(products);
+export default function Products() {
+  const searchParams = useSearchParams();
+
+  const { data, status } = useSuspenseQuery({
+    queryKey: ["productos", ...searchParams.values()],
+    queryFn: () => {
+      if (searchParams.size) {
+        return fetch("/api/productos?" + searchParams).then((res) =>
+          res.json()
+        );
+      } else {
+        return fetch("/api/productos").then((res) => res.json());
+      }
+    },
+  });
 
   return (
     <div>
@@ -13,12 +27,12 @@ export default async function Products() {
         <div className="flex flex-col md:flex-row mt-[80px] md:gap-0">
           <Filters />
           <div className="border border-t-0 md:border-t w-full md:w-[75%] p-4 rounded-b-md md:rounded-bl-none md:rounded-r-md grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[10px] justify-center items-center">
-            {allProducts.length === 0 ? (
+            {data.length === 0 ? (
               <p className="text-[32px] border w-max ">
                 Aún no hay productos agregados
               </p>
             ) : (
-              allProducts.map((product, index) => (
+              data.map((product, index) => (
                 <Product key={index} data={product} />
               ))
             )}

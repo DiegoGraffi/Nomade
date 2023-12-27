@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { formatPrice } from "@/lib/formatter";
 
 const Product = (props) => {
   const { data } = props;
@@ -19,7 +20,7 @@ const Product = (props) => {
           <Separator className="my-2" />
 
           <p className="text-lg md:text-lg font-medium h-[40%]">
-            ${data.price}
+            {formatPrice(data.price)}
           </p>
         </div>
       </Link>
