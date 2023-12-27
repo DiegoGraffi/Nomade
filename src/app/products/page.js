@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { products } from "../../../db/schema";
 import Filters from "../../components/Filters";
 
-const Products = async () => {
+export default async function Products() {
   const allProducts = await db.select().from(products);
 
   return (
@@ -27,6 +27,4 @@ const Products = async () => {
       </section>
     </div>
   );
-};
-
-export default Products;
+}

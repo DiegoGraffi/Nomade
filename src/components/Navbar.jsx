@@ -22,25 +22,30 @@ async function NavigationMenuDemo() {
   }
 
   return (
-    <div className="flex flex-row justify-between py-3 px-[25px] w-screen absolute z-[10] top-0">
+    <div className="flex flex-row justify-between py-3 px-4 w-screen absolute z-[10] top-0">
       <Image src={Logo} width={60} alt="logo" />
       <div className="flex items-center">
         <ul className="flex gap-2.5">
           <li className="text-sm font-light cursor-pointer bg-black text-white hover:bg-neutral-800 transition-all ease-in-out duration-200 py-2 px-3 rounded-md">
-            <a href="/">Inicio</a>
+            <Link href="/">Inicio</Link>
           </li>
           <li className="text-sm font-light cursor-pointer bg-black text-white hover:bg-neutral-800 transition-all ease-in-out duration-200 py-2 px-3 rounded-md">
-            <a href="/#nosotros">Nosotros</a>
+            <Link href="/#nosotros">Nosotros</Link>
           </li>
           <li className="text-sm font-light cursor-pointer bg-black text-white hover:bg-neutral-800 transition-all ease-in-out duration-200 py-2 px-3 rounded-md">
-            <a href="/#category">Categorias</a>
+            <Link href="/#category">Categorias</Link>
           </li>
           <li className="text-sm font-light cursor-pointer bg-black text-white hover:bg-neutral-800 transition-all ease-in-out duration-200 py-2 px-3 rounded-md">
-            <a href="/#contacto">Contacto</a>
+            <Link href="/#contacto">Contacto</Link>
           </li>
           <li className="text-sm font-light cursor-pointer bg-black text-white hover:bg-neutral-800 transition-all ease-in-out duration-200 py-2 px-3 rounded-md">
-            <a href="/products">Productos</a>
+            <Link href="/products">Productos</Link>
           </li>
+          {user?.admin && (
+            <li className="text-sm font-light cursor-pointer bg-black text-white hover:bg-neutral-800 transition-all ease-in-out duration-200 py-2 px-3 rounded-md">
+              <Link href="/admin">Admin</Link>
+            </li>
+          )}
         </ul>
       </div>
       {user ? (
@@ -72,30 +77,5 @@ async function NavigationMenuDemo() {
     </div>
   );
 }
-
-const ListItem = React.forwardRef(
-  ({ className, title, children, ...props }, ref) => {
-    return (
-      <li>
-        <NavigationMenuLink asChild>
-          <a
-            ref={ref}
-            className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-              className
-            )}
-            {...props}
-          >
-            <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-              {children}
-            </p>
-          </a>
-        </NavigationMenuLink>
-      </li>
-    );
-  }
-);
-ListItem.displayName = "ListItem";
 
 export default NavigationMenuDemo;

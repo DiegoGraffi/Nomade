@@ -17,7 +17,9 @@ export function getSession() {
   });
 }
 
-export async function getLoggedInUser() {
+type User = typeof users.$inferSelect;
+
+export async function getLoggedInUser(): Promise<User | null> {
   const session = await getSession();
   if (session.user_id) {
     const dbUsers = await db
