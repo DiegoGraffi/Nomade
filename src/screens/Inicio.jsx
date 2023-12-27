@@ -53,6 +53,7 @@ const Inicio = () => {
           et ante accumsan, varius neque sit amet, ullamcorper dolor. Maecenas
           ultricies massa at magna facilisis rhoncus.
         </p>
+
         <Image
           src={hero}
           width={1200}

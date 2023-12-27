@@ -61,6 +61,7 @@ async function NavigationMenuDemo() {
           <h1>
             Hola <b>{user.name}</b>!
           </h1>
+
           <form action={logout}>
             <Button className="bg-black hover:bg-red-700 text-xs">
               Cerrar Sesion

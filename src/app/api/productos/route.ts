@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic"; // defaults to auto
 
 export async function GET(request: Request) {
   const allProducts = await db.select().from(products);
+  console.log(allProducts);
   return NextResponse.json(allProducts);
 }
 
